@@ -1,0 +1,17 @@
+﻿@page "/"
+
+
+<AuthorizeView>
+    <Authorized>
+        <h1>Bienvenido!</h1>
+
+        <p>Login satisfactorio en el sistema</p>
+
+        <SurveyPrompt Title="How is Blazor working for you?" />
+    </Authorized>
+    <NotAuthorized>
+        <h2>Porfavor inicie sesion para utilizar el sistema</h2>
+        <p>You're not signed in.</p>
+    </NotAuthorized>
+</AuthorizeView>
+

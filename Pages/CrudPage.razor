@@ -1,0 +1,20 @@
+﻿@page "/crud"
+
+<AuthorizeView>
+    <Authorized>
+        <h3>Sistema de Control de Cierres de Venta</h3>
+
+        <button class="btn btn-primary" >Agregar</button>
+    </Authorized>
+    <NotAuthorized>
+        <h2>Porfavor inicie sesion para utilizar el sistema</h2>
+        <p>You're not signed in.</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+
+
+@code {
+
+}
