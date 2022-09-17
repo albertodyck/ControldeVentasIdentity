@@ -1,0 +1,79 @@
+﻿@page "/DetallesVenta"
+@page "/DetallesVenta/{ventaId:int}"
+
+@inject IVentaService VentaService
+@inject NavigationManager NavigationManager
+
+<h1 class="text-primary">Detalles de Venta</h1>
+
+
+        <EditForm Model="@venta" OnValidSubmit="@SaveVenta">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="col-sm-12 col-md-4 col-lg-4">
+                <table class="table">
+    @*                <tr>
+                        <th>Número de Registro</th>
+                        <td><input class="form-control col-sm-4" type="text" @bind="venta.Id" /></td>
+                    </tr>*@
+                    <tr>
+                        <th>Número de Ventas</th>
+                        <td><input class="form-control" type="number" @bind="venta.NumVentas" /></td>
+                    </tr>
+                    <tr>
+                        <th>Monto de Ventas</th>
+                        <td><input class="form-control" type="number" @bind="venta.MontoVentaDia" /></td>
+                    </tr>
+                    <tr>
+                        <th>Fecha de la Venta</th>
+                        <td><input class="form-control" type="date" @bind="venta.Fecha" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align:center">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                            <input type="button" value="Cancel" class="btn btn-info" @onclick="Cancel" />
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </EditForm>
+
+        @code {
+            public string Message { get; set; }
+
+            [Parameter]
+            public int ventaId { get; set; }
+
+            private Venta venta = new Venta();
+
+            protected override async Task OnInitializedAsync()
+            {   
+                try
+                {
+                    if (ventaId != 0)
+                    {
+                        venta = await VentaService.GetVentaDetails(ventaId);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Message = e.Message;
+                }
+            }
+
+            protected async Task SaveVenta()
+            {
+                await VentaService.SaveVenta(venta);
+                NavigationManager.NavigateTo("/crud");
+            }
+
+            protected void Cancel()
+            {
+                NavigationManager.NavigateTo("/crud");
+            }
+
+        }
+
+
+

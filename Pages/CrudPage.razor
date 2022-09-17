@@ -1,10 +1,68 @@
 ﻿@page "/crud"
 
+@inject IVentaService VentaService
+
+
 <AuthorizeView>
     <Authorized>
-        <h3>Sistema de Control de Cierres de Venta</h3>
+        <h1 class="text-primary">Sistema de Control de Cierres de Venta</h1>
 
-        <button class="btn btn-primary" >Agregar</button>
+        <p>Esta pagina muestra la lista de ventas diarias</p>
+        
+        <div>
+            <a href="/DetallesVenta"><i>Agregar Nueva Venta</i></a>
+        </div>
+
+        @if (ventas == null)
+        {
+            <p>Agregue una venta para comenzar</p>
+        }
+        else
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Número de Registro</th>
+                        <th>Número de Ventas</th>
+                        <th>Monto de Ventas</th>
+                        <th>Fecha de la Venta</th>
+                        <th>Editar</th>
+                        <th>Borrar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var venta in ventas)
+                    {
+                        <tr>
+                            <td>@venta.Id</td>
+                            <td>@venta.NumVentas</td>
+                            <td>@venta.MontoVentaDia</td>
+                            <td>@venta.Fecha</td>
+                            <td><a href="/DetallesVenta/@venta.Id" class="btn btn-success"><i>Editar</i></a></td>
+                            <td><a href="/VentaDelete/@venta.Id" class="btn btn-warning"><i>Borrar</i></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+        @code {
+            public IEnumerable<Venta> ventas { get; set; }
+            public string Message { get; set; }
+
+            protected override async Task OnInitializedAsync()
+            {
+                try
+                {
+                    ventas = await VentaService.GetAllVenta();
+                }
+                catch (Exception e)
+                {
+                    Message = e.Message;
+                }
+            }
+        }
+
     </Authorized>
     <NotAuthorized>
         <h2>Porfavor inicie sesion para utilizar el sistema</h2>
@@ -15,6 +73,4 @@
 
 
 
-@code {
 
-}
