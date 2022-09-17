@@ -1,21 +1,19 @@
-﻿@page "/DetallesVenta"
-@page "/DetallesVenta/{ventaId:int}"
+﻿@page "/VentaDelete/{ventaId:int}"
 
 @inject IVentaService VentaService
 @inject NavigationManager NavigationManager
 
-<h1 class="text-primary">Detalles de Venta</h1>
+<h1 class="text-primary">Borrado de Venta</h1>
+<p class="alert alert-danger" role="alert" text-align:center">Esta seguro que desea eleminar esta Venta?</p>
 
 
-<EditForm Model="@venta" OnValidSubmit="@SaveVenta">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+<EditForm Model="@venta">
     <div class="col-sm-12 col-md-4 col-lg-4">
         <table class="table">
-@*                <tr>
+            <tr>
                 <th>Número de Registro</th>
                 <td><input class="form-control col-sm-4" type="text" @bind="venta.Id" /></td>
-            </tr>*@
+            </tr>
             <tr>
                 <th>Número de Ventas</th>
                 <td><input class="form-control" type="number" @bind="venta.NumVentas" /></td>
@@ -30,7 +28,7 @@
             </tr>
             <tr>
                 <td colspan="2" style="text-align:center">
-                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <input type="submit" value="Borrar" class="btn btn-danger" @onclick="DeleteVenta"/>
                     <input type="button" value="Cancel" class="btn btn-info" @onclick="Cancel" />
                 </td>
             </tr>
@@ -62,9 +60,10 @@
         }
     }
 
-    protected async Task SaveVenta()
+    protected async Task DeleteVenta()
     {
-        await VentaService.SaveVenta(venta);
+        await VentaService.DeleteVenta(ventaId);
+
         NavigationManager.NavigateTo("/crud");
     }
 
